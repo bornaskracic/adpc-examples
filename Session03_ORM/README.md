@@ -41,7 +41,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Example01.Data;
+namespace Example03.Data;
 
 [Table("student")]
 public partial class Student
@@ -79,9 +79,9 @@ public partial class Student
 In this example ` [Column("group_id")] virtual StudentGroup Group` associates given student with exacly up to one group (since it is nullable). When retrieving data about the group in which the student belongs to, `Group` property getter will be used; this statement will be translated to the adequate separate query if using **lazy loading** approach. However, if **eager loading** approach is used instead, the data about the student's group will be retrieved when retrieving data about the student itself (using `JOIN` in mapped SQL statements). 
 
 #### Example 04
-This example displays how to utilize the **code first** approach which starts by defining classes for the required entities. Afterwards, the initial migration is created and executed against the target database (to make things easier you can remove the previously set container with `docker rm -f postgres-local` and recreate it from scratch as previously described).
+This example displays how to utilize the **code first** approach which starts by defining classes for the required entities. Afterwards, the initial migration is created and executed against the target database (to make things easier you can remove the previously set container with `docker rm -f postgres-local` and recreate it from scratch as described previously).
 
-Make sure to first install the required `EntityFramework` packages. Then create the appropriate `DbContext` subclass that lists all of the entities in its `DbSet<T>` properties. Afterwards, create the initiak migration:
+Make sure to first install the required `EntityFramework` packages. Then create the appropriate `DbContext` subclass that lists all of the entities in its `DbSet<T>` properties. Afterwards, create the initial migration:
 ```bash
 dotnet ef migrations add InitialMigration
 ```

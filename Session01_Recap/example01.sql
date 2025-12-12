@@ -1,0 +1,235 @@
+-- When using 'psql' program, you can query the information about the table by using '\d <table_name>' shortcut:
+-- postgres=# \d pg_database;
+--                Table "pg_catalog.pg_database"
+--      Column     |   Type    | Collation | Nullable | Default
+-- ----------------+-----------+-----------+----------+---------
+--  oid            | oid       |           | not null |
+--  datname        | name      |           | not null |
+--  datdba         | oid       |           | not null |
+--  encoding       | integer   |           | not null |
+--  datlocprovider | "char"    |           | not null |
+--  datistemplate  | boolean   |           | not null |
+--  datallowconn   | boolean   |           | not null |
+--  dathasloginevt | boolean   |           | not null |
+--  datconnlimit   | integer   |           | not null |
+--  datfrozenxid   | xid       |           | not null |
+--  datminmxid     | xid       |           | not null |
+--  dattablespace  | oid       |           | not null |
+--  datcollate     | text      | C         | not null |
+--  datctype       | text      | C         | not null |
+--  datlocale      | text      | C         |          |
+--  daticurules    | text      | C         |          |
+--  datcollversion | text      | C         |          |
+--  datacl         | aclitem[] |           |          |
+-- Indexes:
+--     "pg_database_oid_index" PRIMARY KEY, btree (oid), tablespace "pg_global"
+--     "pg_database_datname_index" UNIQUE CONSTRAINT, btree (datname), tablespace "pg_global"
+-- Tablespace: "pg_global"
+-- ###
+-- This table contains metadata about databases and you can use it when developing your own database exploration tool!
+-- You can also use it to see the configuration of the database (remember collation settings!)
+select * from pg_database;
+
+-- posgres=# \d pg_stat_database;
+--                            View "pg_catalog.pg_stat_database"
+--            Column           |           Type           | Collation | Nullable | Default
+-- ----------------------------+--------------------------+-----------+----------+---------
+--  datid                      | oid                      |           |          |
+--  datname                    | name                     |           |          |
+--  numbackends                | integer                  |           |          |
+--  xact_commit                | bigint                   |           |          |
+--  xact_rollback              | bigint                   |           |          |
+--  blks_read                  | bigint                   |           |          |
+--  blks_hit                   | bigint                   |           |          |
+--  tup_returned               | bigint                   |           |          |
+--  tup_fetched                | bigint                   |           |          |
+--  tup_inserted               | bigint                   |           |          |
+--  tup_updated                | bigint                   |           |          |
+--  tup_deleted                | bigint                   |           |          |
+--  conflicts                  | bigint                   |           |          |
+--  temp_files                 | bigint                   |           |          |
+--  temp_bytes                 | bigint                   |           |          |
+--  deadlocks                  | bigint                   |           |          |
+--  checksum_failures          | bigint                   |           |          |
+--  checksum_last_failure      | timestamp with time zone |           |          |
+--  blk_read_time              | double precision         |           |          |
+--  blk_write_time             | double precision         |           |          |
+--  session_time               | double precision         |           |          |
+--  active_time                | double precision         |           |          |
+--  idle_in_transaction_time   | double precision         |           |          |
+--  sessions                   | bigint                   |           |          |
+--  sessions_abandoned         | bigint                   |           |          |
+--  sessions_fatal             | bigint                   |           |          |
+--  sessions_killed            | bigint                   |           |          |
+--  parallel_workers_to_launch | bigint                   |           |          |
+--  parallel_workers_launched  | bigint                   |           |          |
+--  stats_reset                | timestamp with time zone |           |          |
+-- ###
+-- Table contains number of commits and rollbacks, deadlocks, tuple reads/inserts/updates/deletes, temporary file usage, etc.
+select * pg_stat_database;
+
+-- postgres=# \d pg_stats;
+--                      View "pg_catalog.pg_stats"
+--          Column         |   Type   | Collation | Nullable | Default
+-- ------------------------+----------+-----------+----------+---------
+--  schemaname             | name     |           |          |
+--  tablename              | name     |           |          |
+--  attname                | name     |           |          |
+--  inherited              | boolean  |           |          |
+--  null_frac              | real     |           |          |
+--  avg_width              | integer  |           |          |
+--  n_distinct             | real     |           |          |
+--  most_common_vals       | anyarray |           |          |
+--  most_common_freqs      | real[]   |           |          |
+--  histogram_bounds       | anyarray |           |          |
+--  correlation            | real     |           |          |
+--  most_common_elems      | anyarray |           |          |
+--  most_common_elem_freqs | real[]   |           |          |
+--  elem_count_histogram   | real[]   |           |          |
+--  range_length_histogram | anyarray |           |          |
+--  range_empty_frac       | real     |           |          |
+--  range_bounds_histogram | anyarray |           |          |
+-- ###
+-- Shows column-level statistics generated by ANALYZE and used by the planner.
+select * from pg_stats;
+
+
+-- postgres=# \d pg_stat_user_tables;
+--                        View "pg_catalog.pg_stat_user_tables"
+--          Column         |           Type           | Collation | Nullable | Default
+-- ------------------------+--------------------------+-----------+----------+---------
+--  relid                  | oid                      |           |          |
+--  schemaname             | name                     |           |          |
+--  relname                | name                     |           |          |
+--  seq_scan               | bigint                   |           |          |
+--  last_seq_scan          | timestamp with time zone |           |          |
+--  seq_tup_read           | bigint                   |           |          |
+--  idx_scan               | bigint                   |           |          |
+--  last_idx_scan          | timestamp with time zone |           |          |
+--  idx_tup_fetch          | bigint                   |           |          |
+--  n_tup_ins              | bigint                   |           |          |
+--  n_tup_upd              | bigint                   |           |          |
+--  n_tup_del              | bigint                   |           |          |
+--  n_tup_hot_upd          | bigint                   |           |          |
+--  n_tup_newpage_upd      | bigint                   |           |          |
+--  n_live_tup             | bigint                   |           |          |
+--  n_dead_tup             | bigint                   |           |          |
+--  n_mod_since_analyze    | bigint                   |           |          |
+--  n_ins_since_vacuum     | bigint                   |           |          |
+--  last_vacuum            | timestamp with time zone |           |          |
+--  last_autovacuum        | timestamp with time zone |           |          |
+--  last_analyze           | timestamp with time zone |           |          |
+--  last_autoanalyze       | timestamp with time zone |           |          |
+--  vacuum_count           | bigint                   |           |          |
+--  autovacuum_count       | bigint                   |           |          |
+--  analyze_count          | bigint                   |           |          |
+--  autoanalyze_count      | bigint                   |           |          |
+--  total_vacuum_time      | double precision         |           |          |
+--  total_autovacuum_time  | double precision         |           |          |
+--  total_analyze_time     | double precision         |           |          |
+--  total_autoanalyze_time | double precision         |           |          |
+-- ###
+-- Shows table-level statistics for tables owned by users (excludes system tables)
+-- e.g. sequential and index scan count, auto-vacuum activity
+select* from pg_stat_user_tables;
+
+-- postgres=# \d pg_stat_activity;
+--                       View "pg_catalog.pg_stat_activity"
+--       Column      |           Type           | Collation | Nullable | Default
+-- ------------------+--------------------------+-----------+----------+---------
+--  datid            | oid                      |           |          |
+--  datname          | name                     |           |          |
+--  pid              | integer                  |           |          |
+--  leader_pid       | integer                  |           |          |
+--  usesysid         | oid                      |           |          |
+--  usename          | name                     |           |          |
+--  application_name | text                     |           |          |
+--  client_addr      | inet                     |           |          |
+--  client_hostname  | text                     |           |          |
+--  client_port      | integer                  |           |          |
+--  backend_start    | timestamp with time zone |           |          |
+--  xact_start       | timestamp with time zone |           |          |
+--  query_start      | timestamp with time zone |           |          |
+--  state_change     | timestamp with time zone |           |          |
+--  wait_event_type  | text                     |           |          |
+--  wait_event       | text                     |           |          |
+--  state            | text                     |           |          |
+--  backend_xid      | xid                      |           |          |
+--  backend_xmin     | xid                      |           |          |
+--  query_id         | bigint                   |           |          |
+--  query            | text                     |           |          |
+--  backend_type     | text                     |           |          |
+-- ###
+-- Shows current sessions and what each backend is doing.
+select * pg_stat_activity;
+
+-- postgres=# \d information_schema.tables;
+--                                  View "information_schema.tables"
+--             Column            |               Type                | Collation | Nullable | Default
+-- ------------------------------+-----------------------------------+-----------+----------+---------
+--  table_catalog                | information_schema.sql_identifier |           |          |
+--  table_schema                 | information_schema.sql_identifier |           |          |
+--  table_name                   | information_schema.sql_identifier |           |          |
+--  table_type                   | information_schema.character_data |           |          |
+--  self_referencing_column_name | information_schema.sql_identifier |           |          |
+--  reference_generation         | information_schema.character_data |           |          |
+--  user_defined_type_catalog    | information_schema.sql_identifier |           |          |
+--  user_defined_type_schema     | information_schema.sql_identifier |           |          |
+--  user_defined_type_name       | information_schema.sql_identifier |           |          |
+--  is_insertable_into           | information_schema.yes_or_no      |           |          |
+--  is_typed                     | information_schema.yes_or_no      |           |          |
+--  commit_action                | information_schema.character_data |           |          |
+-- ###
+-- Using this system view, we can query information about tables (metadata).
+select * information_schema.tables;
+
+-- postgres=# \d information_schema.columns;
+--                                View "information_schema.columns"
+--           Column          |                Type                | Collation | Nullable | Default
+-- --------------------------+------------------------------------+-----------+----------+---------
+--  table_catalog            | information_schema.sql_identifier  |           |          |
+--  table_schema             | information_schema.sql_identifier  |           |          |
+--  table_name               | information_schema.sql_identifier  |           |          |
+--  column_name              | information_schema.sql_identifier  |           |          |
+--  ordinal_position         | information_schema.cardinal_number |           |          |
+--  column_default           | information_schema.character_data  |           |          |
+--  is_nullable              | information_schema.yes_or_no       |           |          |
+--  data_type                | information_schema.character_data  |           |          |
+--  character_maximum_length | information_schema.cardinal_number |           |          |
+--  character_octet_length   | information_schema.cardinal_number |           |          |
+--  numeric_precision        | information_schema.cardinal_number |           |          |
+--  numeric_precision_radix  | information_schema.cardinal_number |           |          |
+--  numeric_scale            | information_schema.cardinal_number |           |          |
+--  datetime_precision       | information_schema.cardinal_number |           |          |
+--  interval_type            | information_schema.character_data  |           |          |
+--  interval_precision       | information_schema.cardinal_number |           |          |
+--  character_set_catalog    | information_schema.sql_identifier  |           |          |
+--  character_set_schema     | information_schema.sql_identifier  |           |          |
+--  character_set_name       | information_schema.sql_identifier  |           |          |
+--  collation_catalog        | information_schema.sql_identifier  |           |          |
+--  collation_schema         | information_schema.sql_identifier  |           |          |
+--  collation_name           | information_schema.sql_identifier  |           |          |
+--  domain_catalog           | information_schema.sql_identifier  |           |          |
+--  domain_schema            | information_schema.sql_identifier  |           |          |
+--  domain_name              | information_schema.sql_identifier  |           |          |
+--  udt_catalog              | information_schema.sql_identifier  |           |          |
+--  udt_schema               | information_schema.sql_identifier  |           |          |
+--  udt_name                 | information_schema.sql_identifier  |           |          |
+--  scope_catalog            | information_schema.sql_identifier  |           |          |
+--  scope_schema             | information_schema.sql_identifier  |           |          |
+--  scope_name               | information_schema.sql_identifier  |           |          |
+--  maximum_cardinality      | information_schema.cardinal_number |           |          |
+--  dtd_identifier           | information_schema.sql_identifier  |           |          |
+--  is_self_referencing      | information_schema.yes_or_no       |           |          |
+--  is_identity              | information_schema.yes_or_no       |           |          |
+--  identity_generation      | information_schema.character_data  |           |          |
+--  identity_start           | information_schema.character_data  |           |          |
+--  identity_increment       | information_schema.character_data  |           |          |
+--  identity_maximum         | information_schema.character_data  |           |          |
+--  identity_minimum         | information_schema.character_data  |           |          |
+--  identity_cycle           | information_schema.yes_or_no       |           |          |
+--  is_generated             | information_schema.character_data  |           |          |
+--  generation_expression    | information_schema.character_data  |           |          |
+--  is_updatable             | information_schema.yes_or_no       |           |          |
+-- Same thing as previous one, only for columns.
+select * from information_schema.columns;
