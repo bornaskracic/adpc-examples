@@ -1,4 +1,6 @@
+.snakemake
 bin
 obj
 venv
+.venv
 __pycache__

@@ -1,0 +1,17 @@
+rule all:
+    input:
+        "data/translated.txt"
+
+rule scrape:
+    output:
+        "data/call_symbols.json"
+    shell:
+        "python scripts/scrape.py --output-file={output}"
+
+rule process:
+    input: 
+        "data/call_symbols.json"
+    output: 
+        "data/translated.txt"
+    shell:
+        "python scripts/process.py --input-file={input} --output-file={output} --input-string=FGHX"
